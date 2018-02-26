@@ -1,6 +1,13 @@
 <template>
   <div class="hello">
-    <el-button type="primary">主要按钮</el-button>
+    <el-table :data="data" border stripe style="width: 100%">
+      <el-table-column
+        v-for="col in columns"
+        :prop="col"
+        :label="col"
+        :key="col">
+      </el-table-column>
+    </el-table>
   </div>
 </template>
 
@@ -14,8 +21,15 @@ export default {
       data: []
     }
   },
+  computed: {
+    columns () {
+      return (this.data && this.data.length) ? Object.keys(this.data[0]) : []
+    }
+  },
   mounted () {
-    fetchData().then(data => console.log(data))
+    fetchData().then(data => {
+      this.data = data
+    })
   }
 }
 </script>

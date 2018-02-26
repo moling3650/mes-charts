@@ -8,10 +8,12 @@
         :key="col">
       </el-table-column>
     </el-table>
+    <bar :data="data"></bar>
   </div>
 </template>
 
 <script>
+import Bar from '@/components/Bar'
 import { fetchData } from '@/apis'
 
 export default {
@@ -20,6 +22,9 @@ export default {
     return {
       data: []
     }
+  },
+  components: {
+    Bar
   },
   computed: {
     columns () {

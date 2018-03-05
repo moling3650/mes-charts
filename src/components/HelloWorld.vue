@@ -8,12 +8,14 @@
         :key="col">
       </el-table-column>
     </el-table>
-    <bar :data="data"></bar>
+    <component :is="'BarChart'" :data="data"></component>
   </div>
 </template>
 
 <script>
-import Bar from '@/components/Bar'
+import BarChart from '@/components/Bar'
+import LineChart from '@/components/Line'
+import PieChart from '@/components/Pie'
 import { fetchData } from '@/apis'
 
 export default {
@@ -24,7 +26,9 @@ export default {
     }
   },
   components: {
-    Bar
+    BarChart,
+    LineChart,
+    PieChart
   },
   computed: {
     columns () {

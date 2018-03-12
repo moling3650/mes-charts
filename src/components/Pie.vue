@@ -47,6 +47,17 @@ export default {
           name: Object.keys(this.data[0])[0],
           type: 'pie',
           center: ['50%', '50%'],
+          label: {
+            normal: {
+              position: 'inner',
+              formatter: '{b} : {c}\n{d}%',
+              textStyle: {
+                color: '#fff',
+                fontWeight: 'bold',
+                fontSize: 14
+              }
+            }
+          },
           data: this.data.map(item => ({
             name: Object.values(item)[0],
             value: Object.values(item)[1]

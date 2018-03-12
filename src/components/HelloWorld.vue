@@ -8,7 +8,7 @@
         :key="col">
       </el-table-column>
     </el-table>
-    <component v-for="c in charts" :is="c" :key="c" :data="data"/>
+    <component v-for="c in charts" :is="c" :key="c" :data="data" label="SFC" values="totalQty,totalInitQty"/>
   </div>
 </template>
 

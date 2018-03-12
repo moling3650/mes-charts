@@ -8,7 +8,7 @@
         :key="col">
       </el-table-column>
     </el-table>
-    <component :is="'BarChart'" :data="data"></component>
+    <component v-for="c in charts" :is="c" :key="c" :data="data"/>
   </div>
 </template>
 
@@ -22,7 +22,8 @@ export default {
   name: 'HelloWorld',
   data () {
     return {
-      data: []
+      data: [],
+      charts: ['BarChart', 'LineChart', 'PieChart']
     }
   },
   components: {
@@ -36,7 +37,13 @@ export default {
     }
   },
   mounted () {
-    fetchData().then(data => {
+    const sql = `
+    SELECT TOP 5 order_no, SFC, SUM(qty) AS totalQty, SUM(initqty) AS totalInitQty
+      FROM P_SFC_Process_IOLog
+      GROUP BY order_no, SFC
+      ORDER BY totalQty DESC
+    `
+    fetchData(sql).then(data => {
       this.data = data
     })
   }

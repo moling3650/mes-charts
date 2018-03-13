@@ -15,9 +15,15 @@ export default {
   props: {
     data: {
       type: Array,
-      default () {
-        return []
-      }
+      default: () => []
+    },
+    label: {
+      type: String,
+      required: true
+    },
+    values: {
+      type: Array,
+      required: true
     }
   },
   data () {
@@ -26,7 +32,9 @@ export default {
     }
   },
   watch: {
-    'data': 'refresh'
+    'data': 'refresh',
+    'label': 'refresh',
+    'values': 'refresh'
   },
   methods: {
     refresh () {
@@ -44,7 +52,7 @@ export default {
         },
         legend: {},
         series: [{
-          name: Object.keys(this.data[0])[0],
+          name: this.label,
           type: 'pie',
           center: ['50%', '50%'],
           label: {
@@ -59,8 +67,8 @@ export default {
             }
           },
           data: this.data.map(item => ({
-            name: Object.values(item)[0],
-            value: Object.values(item)[1]
+            name: item[this.label],
+            value: item[this.values[0]]
           }))
         }]
       })
@@ -68,6 +76,7 @@ export default {
   },
   mounted () {
     this.pie = echarts.init(this.$refs.pie)
+    this.refresh()
   }
 }
 </script>

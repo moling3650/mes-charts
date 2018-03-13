@@ -15,6 +15,14 @@ export default {
     data: {
       type: Array,
       default: () => []
+    },
+    label: {
+      type: String,
+      required: true
+    },
+    values: {
+      type: Array,
+      required: true
     }
   },
   data () {
@@ -23,18 +31,20 @@ export default {
     }
   },
   watch: {
-    'data': 'refresh'
+    'data': 'refresh',
+    'label': 'refresh',
+    'values': 'refresh'
   },
   methods: {
     refresh () {
       if (!this.data.length) {
         return
       }
-      const series = Object.keys(this.data[0]).slice(1).map(key => {
+      const series = this.values.map(value => {
         return {
-          name: key,
+          name: value,
           type: 'line',
-          data: this.data.map(item => item[key])
+          data: this.data.map(item => item[value])
         }
       })
 
@@ -45,18 +55,19 @@ export default {
         tooltip: {},
         legend: {},
         xAxis: {
-          data: this.data.map(item => Object.values(item)[0])
+          data: this.data.map(item => item[this.label])
         },
         yAxis: {
           max: value => value.max + (value.max - value.min) / 4,
           min: value => value.min - (value.max - value.min) / 4
         },
         series
-      })
+      }, true)
     }
   },
   mounted () {
     this.line = echarts.init(this.$refs.line)
+    this.refresh()
   }
 }
 </script>

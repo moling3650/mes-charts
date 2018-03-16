@@ -54,13 +54,13 @@ export default {
         series: [{
           name: this.label,
           type: 'pie',
-          center: ['50%', '50%'],
+          center: ['50%', '60%'],
           label: {
             normal: {
-              position: 'inner',
-              formatter: '{b} : {c}\n{d}%',
+              // position: 'inner',
+              formatter: '{d}%',
               textStyle: {
-                color: '#fff',
+                // color: '#fff',
                 fontWeight: 'bold',
                 fontSize: 14
               }

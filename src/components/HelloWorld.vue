@@ -1,23 +1,33 @@
 <template>
   <div class="hello">
     <el-row :gutter="20">
-      <el-col :span="4">
-        选择Label
-      </el-col>
       <el-col :span="20">
-        <el-radio-group v-model="label">
-          <el-radio v-for="col in columns" :label="col" :key="col">{{col}}</el-radio>
-        </el-radio-group>
+        <el-input v-model="sql"></el-input>
+      </el-col>
+      <el-col :span="3">
+        <el-button @click="query">查询</el-button>
       </el-col>
     </el-row>
     <el-row :gutter="20">
       <el-col :span="4">
-        选择Values
+        选择Label:
       </el-col>
       <el-col :span="20">
-        <el-checkbox-group v-model="values">
+        <el-radio-group v-model="label" v-show="columns.length">
+          <el-radio v-for="col in columns" :label="col" :key="col">{{col}}</el-radio>
+        </el-radio-group>
+        <div v-show="!columns.length">无</div>
+      </el-col>
+    </el-row>
+    <el-row :gutter="20">
+      <el-col :span="4">
+        选择Values:
+      </el-col>
+      <el-col :span="20">
+        <el-checkbox-group v-model="values" v-show="columns.length">
           <el-checkbox v-for="col in columns" :label="col" :key="col">{{col}}</el-checkbox>
         </el-checkbox-group>
+        <div v-show="!columns.length">无</div>
       </el-col>
     </el-row>
 
@@ -46,6 +56,7 @@ export default {
   name: 'HelloWorld',
   data () {
     return {
+      sql: '',
       data: [],
       label: '',
       values: [],
@@ -62,16 +73,12 @@ export default {
       return (this.data && this.data.length) ? Object.keys(this.data[0]) : []
     }
   },
-  mounted () {
-    const sql = `
-    SELECT TOP 5 order_no, SFC, SUM(qty) AS totalQty, SUM(initqty) AS totalInitQty
-      FROM P_SFC_Process_IOLog
-      GROUP BY order_no, SFC
-      ORDER BY totalQty DESC
-    `
-    fetchData(sql).then(data => {
-      this.data = data
-    })
+  methods: {
+    query () {
+      fetchData(this.sql).then(data => {
+        this.data = data
+      })
+    }
   }
 }
 </script>
